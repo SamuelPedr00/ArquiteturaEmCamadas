@@ -2,6 +2,7 @@
 
 using Camada.DAL.Context;
 using Camada.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Camada.DAL.Repositories
 {
@@ -31,6 +32,18 @@ namespace Camada.DAL.Repositories
         {
             var cliente = _context.Clientes.Where(x => x.Id == id).FirstOrDefault();
             return cliente;
+        }
+
+        public bool Atualizar(Cliente c)
+        {
+            _context.Clientes.Update(c);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool Deletar(Cliente c)
+        {
+            _context.Clientes.Remove(c);
+            return _context.SaveChanges() > 0;
         }
     }
 }
