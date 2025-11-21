@@ -11,9 +11,9 @@ namespace Camada.Controllers
     {
 
         private readonly ClienteService _clienteService;
-        public ClienteController()
+        public ClienteController(ClienteService clienteService)
         {
-            _clienteService = new ClienteService();
+            _clienteService = clienteService;
         }
 
         [HttpGet]
@@ -21,6 +21,17 @@ namespace Camada.Controllers
             var listaCliente = _clienteService.ObterTodos();
 
             return Ok(listaCliente);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetCliente([FromRoute] int id)
+        {
+            var cliente = _clienteService.ObterPorId(id);
+
+            if (cliente == null)
+                return NotFound();
+
+            return Ok(cliente);
         }
 
         [HttpPost]

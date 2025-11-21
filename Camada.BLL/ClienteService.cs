@@ -8,9 +8,9 @@ namespace Camada.BLL
     {
 
         private readonly ClienteRepository _clienteRepository;
-        public ClienteService()
+        public ClienteService(ClienteRepository repository)
         {
-            _clienteRepository = new ClienteRepository();
+            _clienteRepository = repository;
         }
 
         public bool CadastrarCliente(Cliente c)
@@ -23,6 +23,10 @@ namespace Camada.BLL
             var result = _clienteRepository.ObterTodos();
             return result;
         
+        }
+        public Cliente? ObterPorId(int id)
+        {
+            return _clienteRepository.ObterPorId(id);
         }
     }
 }

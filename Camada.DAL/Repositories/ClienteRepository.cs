@@ -1,40 +1,36 @@
 ﻿
 
+using Camada.DAL.Context;
 using Camada.Model;
 
 namespace Camada.DAL.Repositories
 {
+
     public class ClienteRepository
     {
-        public ClienteRepository()
+        private readonly CamadaContext _context;
+
+        public ClienteRepository(CamadaContext context)
         {
-            
+            _context = context;
         }
 
         public bool Cadastrar(Cliente c)
         {
-            return true;
+            _context.Clientes.Add(c);
+            return _context.SaveChanges() > 0;
         }
 
-        public List<Cliente> ObterTodos() {
-            var lista = new List<Cliente>()
-            {
-                new Cliente {
-                    Id = 1,
-                    Nome = "Samuel",
-                    Idade = 20,
-                    Nascimento = new DateTime(2004, 1, 1)
-
-                },
-                new Cliente {
-                    Id = 2,
-                    Nome = "Gabriel",
-                    Idade = 16,
-                    Nascimento = new DateTime(2009, 1, 1)
-
-                }
-            };
+        public List<Cliente> ObterTodos()
+        {
+            var lista = _context.Clientes.ToList();
             return lista;
+        }
+
+        public Cliente? ObterPorId(long id)
+        {
+            var cliente = _context.Clientes.Where(x => x.Id == id).FirstOrDefault();
+            return cliente;
         }
     }
 }

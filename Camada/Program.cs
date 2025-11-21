@@ -1,3 +1,8 @@
+using Camada.BLL;
+using Camada.DAL.Context;
+using Camada.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ClienteRepository>();
+builder.Services.AddScoped<ClienteService>();
+
+
+builder.Services.AddDbContext<CamadaContext>(options => options.UseSqlite(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
